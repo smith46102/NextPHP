@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+namespace ${1:Namespace};
+
+use
+	${2:\Use};
+
+/*
+
+	${3:ClassName} class - @description
+
+*/
+
+class ${3:ClassName} extends ${4:ExtendsClass} {
+
+	// some code
+
+}
+]]></content>
+	<tabTrigger>module</tabTrigger>
+	<description>class module</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

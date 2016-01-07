@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+elseif (${1}) {
+	${2:// some code ...}
+} ${0}
+]]></content>
+	<tabTrigger>elseif</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

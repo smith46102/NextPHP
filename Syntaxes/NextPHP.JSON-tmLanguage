@@ -1,0 +1,380 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+{
+	"name": "Next PHP",
+	"scopeName": "source.php",
+	"fileTypes": [],
+	//"firstLineMatch": "<\\?(php|=)?",
+
+	"repository": {
+
+		// xxx expression
+		"expression": {
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#function" },
+				{ "include": "#keyword" },
+				{ "include": "#block" },
+				{ "include": "#parameters" },
+				{ "include": "#array" },
+				{ "include": "#brace" },
+				{ "include": "#function-call" },
+				{ "include": "#method-call" },
+				{ "include": "#variable" },
+				{ "include": "#property" },
+				{ "include": "#operator" },
+				{ "include": "#number" },
+				{ "include": "#string" },
+				{ "include": "#constant" }
+			]
+		},
+
+		// xxx parameters
+		"parameters": {
+			"begin": "(\\()",
+			"end": "(\\))",
+			"beginCaptures": { "1": { "name": "brace" } },
+			"endCaptures": { "1": { "name": "brace" } },
+			"contentName": "parameters.php",
+			"patterns": [ { "include": "#expression" } ]
+		},
+
+		// xxx block
+		"block": {
+			"begin": "(\\{)",
+			"end": "(\\})",
+			"beginCaptures": { "1": { "name": "brace" } },
+			"endCaptures": { "1": { "name": "brace" } },
+			"contentName": "block.php",
+			"patterns": [ { "include": "#expression" } ]
+		},
+
+		// xxx array
+		"array": {
+			"begin": "(\\[)",
+			"end": "(\\])",
+			"beginCaptures": { "1": { "name": "brace" } },
+			"endCaptures": { "1": { "name": "brace" } },
+			"contentName": "block.array.php",
+			"patterns": [ { "include": "#expression" } ]
+		},
+
+		// xxx class
+		"class": {
+			"begin": "\\b(class|interface|trait)\\b",
+			"end": "(?<=\\})",
+			"beginCaptures": { "1": { "name": "keyword.php"} },
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#keyword" },
+				{ "include": "#class-name" },
+				{ "include": "#block" }
+			]
+		},
+
+		// xxx function
+		"function": {
+			"begin": "\\b(function)\\b",
+			"end": "(?<=\\}|;)",
+			"beginCaptures": { "1": { "name": "keyword.php" } },
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#keyword" },
+				{ "match": "\\w+", "name": "function.name.php" },
+				{ "include": "#parameters" },
+				{ "include": "#block" }
+			]
+		},
+
+		// xxx brace
+		"brace": {
+			"match": "[,;]",
+			"name": "brace.php"
+		},
+
+		// xxx keywords
+		"keyword": {
+			"patterns": [
+				{ // flow control
+					"match": "\\b(and|or|xor)\\b",
+					"name": "keyword.logical.php"
+				},
+				{ // type
+					"match": "\\binstanceof|insteadof|as\\b",
+					"name": "keyword.type.php"
+				},
+				{ // class keywords
+					"match": "\\b(class|public|protected|private|static|abstract|const|var|final|extends|implements)\\b",
+					"name": "keyword.class.php"
+				},
+				{ // flow controls keywords
+					"match": "\\b(if|else|elseif|for|foreach|while|do|try|catch|finally|switch|case|default|endif|endswitch|endwhile|endfor|endforeach)\\b",
+					"name": "keyword.flow.php"
+				},
+				{ // special constants
+					"match": "\\b(function|return|exit|throw|echo|print|include|include_once|require|require_once|clone|break|continue|declare|goto|namespace|use)\\b",
+					"name": "keyword.php"
+				},
+				{ // special constants
+					"match": "\\b(?i:true|false|null)\\b",
+					"name": "constant.language.php"
+				},
+				{ // type casting
+					"match": "\\b(int|integer|bool|boolean|float|double|real|string|array|object|unset|callable)\\b",
+					"name": "keyword.type.php"
+				},
+				{ // new operator with class
+					"match": "\\b(new)\\s+([\\w\\\\]+)\\b",
+					"captures": {
+						"1": { "name": "keyword.constructor.php" },
+						"2": { "name": "class.name.php" }
+					}
+				},
+				{ // new operator with $var
+					"match": "\\b(new)\\s+(\\$[\\w\\\\]+)\\b",
+					"captures": {
+						"1": { "name": "keyword.constructor.php" },
+						"2": { "name": "variable.php" }
+					}
+				}
+			]
+		},
+
+		// xxx operator
+		"operator": {
+			"patterns": [
+				{ // objects and arrays operators
+					"match": "(->|::|=>)",
+					"name": "meta.brace.php"
+				},
+				{ // error control
+					"match": "@",
+					"name": "operator.php"
+				},
+				{ // reference
+					"match": "&(?=\\$)",
+					"name": "operator.php"
+				},
+				{ // arithmetic
+					"match": "(-|\\+|\\*|\\/|%|\\*\\*)",
+					"name": "operator.php"
+				},
+				{ // assignment
+					"match": "(=|\\+=|-=|\\*=|\\/=|%=|\\*\\*=)",
+					"name": "operator.php"
+				},
+				{ // bitwise
+					"match": "(&|\\||^|~|<<|>>)",
+					"name": "operator.php"
+				},
+				{ // comparison
+					"match": "(==|===|\\!=|<>|\\!==|<|>|<=|>=)",
+					"name": "operator.php"
+				},
+				{ // increment
+					"match": "(\\+\\+|--)",
+					"name": "operator.php"
+				},
+				{ // logical
+					"match": "(\\!|&&|\\|\\|)",
+					"name": "operator.php"
+				},
+				{ // string
+					"match": "\\.",
+					"name": "operator.php"
+				},
+				{ // choose
+					"match": "(\\?|:)",
+					"name": "operator.php"
+				}
+			]
+		},
+
+		// xxx variable
+		"variable": {
+			"patterns": [
+				{ // $this | self
+					"match": "(\\$this|self)",
+					"name": "class.name.php"
+				},
+				{ // $variable
+					"match": "\\$\\w+\\b",
+					"name": "variable.php"
+				}
+			]
+		},
+
+		// xxx property
+		"property": {
+			"match": "(->)\\s*(\\w+)",
+			"captures": {
+				"1": { "name": "brace.php" },
+				"2": { "name": "property.php" }
+			}
+		},
+
+		// xxx ->|:: method call
+		"method-call": {
+			"begin": "(->|::)\\s*(\\w+)\\s*(\\()",
+			"end": "(\\))",
+			"beginCaptures": {
+				"1": { "name": "brace.php" },
+				"2": { "name": "function.call.name.php" },
+				"3": { "name": "brace.php" }
+			},
+			"endCaptures": {
+				"1": { "name": "brace.php" }
+			},
+			"contentName": "function.call.parameters.php",
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#expression" }
+			]
+		},
+
+		// xxx function call
+		"function-call": {
+			"begin": "(\\w+)\\s*(\\()",
+			"end": "(\\))",
+			"beginCaptures": {
+				"1": { "name": "function.call.name.php" },
+				"2": { "name": "brace.php" }
+			},
+			"endCaptures": {
+				"1": { "name": "brace.php" }
+			},
+			"contentName": "function.call.parameters.php",
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#expression" }
+			]
+		},
+
+		// xxx class-name
+		"class-name": {
+			"match": "[\\w\\\\]+",
+			"name": "class.name.php"
+		},
+
+		// xxx comment
+		"comment": {
+			"patterns": [
+				{ // red comment line
+					"match": "(// xxx).*?($\n?|(?=\\?>))",
+					"name": "comment.line.xxx.php"
+				},
+				{ // green comment line
+					"match": "(// \\+\\+\\+).*?($\n?|(?=\\?>))",
+					"name": "comment.line.plus.php"
+				},
+				{ // comment line
+					"match": "(//).*?($\n?|(?=\\?>))",
+					"name": "comment.line.php"
+				},
+				{ // php doc
+					"begin": "/\\*\\*",
+					"end": "\\*/",
+					"name": "comment.doc.php",
+					"patterns": [
+						{
+							"match": "\\@\\w+",
+							"name": "comment.doc.symbol.php"
+						},
+						{
+							"match": "\\$\\w+",
+							"name": "comment.doc.var.php"
+						},
+						{
+							"match": "(\\\\\\w+)\\b",
+							"name": "comment.doc.type.php"
+						},
+						{
+							"match": "\\b(self|static|array|int|bool|string|mixed|float|object|callable)\\b",
+							"name": "comment.doc.type.php"
+						}
+					]
+				},
+				{ // comment block
+					"begin": "/\\*",
+					"end": "\\*/",
+					"name": "comment.block.php",
+					"patterns": [
+						{
+							"match": "\\@\\w+",
+							"name": "comment.doc.php"
+						},
+						{
+							"match": "\\$\\w+",
+							"name": "comment.var.php"
+						}
+					]
+				}
+			]
+		},
+
+		// xxx string
+		"string": {
+			"patterns": [
+				{ // single quoted string
+					"begin": "'",
+					"end": "'",
+					"name": "string.single.php",
+					"contentName": "string.content.php",
+					"patterns": [
+						{ // escape symbols
+							"match": "\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)",
+							"name": "string.escape.php"
+						}
+					]
+				},
+				{ // double quoted string
+					"begin": "\"",
+					"end": "\"",
+					"name": "string.double.php",
+					"contentName": "string.content.php",
+					"patterns": [
+						{ // escape symbols
+							"match": "\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)",
+							"name": "string.escape.php"
+						},
+						{ // built-in variables
+							"match": "\\$[\\w]+",
+							"name": "variable.php"
+						}
+					]
+				}
+			]
+		},
+
+		// xxx number
+		"number": {
+			"match": "\\b\\d+\\b",
+			"name": "number.php"
+		},
+
+		// xxx constant
+		"constant": {
+			"patterns": [
+				{ // static class calls
+					"match": "[\\w\\\\]+(?=\\s*::)",
+					"name": "class.name.php"
+				},
+				{ // type hinting
+					"match": "[\\w\\\\]+(?=\\s*\\$\\w+)",
+					"name": "class.name.php"
+				},
+				{ // other normal constants
+					"match": "[\\w\\\\]+",
+					"name": "constant.php"
+				}
+			]
+		}
+
+	},
+
+	"patterns": [
+		{ "include": "#comment" },
+		{ "include": "#class" },
+		{ "include": "#function" },
+		{ "include": "#expression" }
+	]
+}

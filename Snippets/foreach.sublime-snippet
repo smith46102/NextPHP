@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+foreach (${1:list} as ${2:item}) {
+	${0:// some code ...}
+}
+]]></content>
+	<tabTrigger>foreach</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

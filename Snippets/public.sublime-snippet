@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+public ${0}
+]]></content>
+	<tabTrigger>public</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+try {
+	${1:// some code ...}
+} catch (\Exception \$e) {
+	${0:// some code ...}
+}
+]]></content>
+	<tabTrigger>try</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+debugCode(outvar(${1:'test code'})); exit;
+]]></content>
+	<tabTrigger>deb</tabTrigger>
+	<description>deb(...); exit;</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

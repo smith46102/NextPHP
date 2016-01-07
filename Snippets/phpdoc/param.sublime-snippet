@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+param
+]]></content>
+	<tabTrigger>param</tabTrigger>
+	<description>php-doc</description>
+	<scope>source.php comment.php-doc</scope>
+</snippet>

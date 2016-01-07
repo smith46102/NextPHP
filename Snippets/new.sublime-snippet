@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+new ${1:ClassName}(${2})
+]]></content>
+	<tabTrigger>new</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

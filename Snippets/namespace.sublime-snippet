@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+namespace ${1:Name};
+]]></content>
+	<tabTrigger>namespace</tabTrigger>
+	<description>php</description>
+	<scope>source.php -variable -block -string -comment</scope>
+</snippet>

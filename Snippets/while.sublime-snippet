@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+while (${1}) {
+	${0:// some code ...}
+}
+]]></content>
+	<tabTrigger>while</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

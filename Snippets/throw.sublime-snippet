@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+throw new ${1:\Exception}(${2});
+]]></content>
+	<tabTrigger>throw</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

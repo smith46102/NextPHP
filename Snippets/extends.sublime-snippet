@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+extends ${1:name} 
+]]></content>
+	<tabTrigger>extends</tabTrigger>
+	<description>php</description>
+	<scope>source.php -block.function.php -string -comment</scope>
+</snippet>

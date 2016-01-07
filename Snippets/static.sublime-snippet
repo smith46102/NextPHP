@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+static ${0}
+]]></content>
+	<tabTrigger>static</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

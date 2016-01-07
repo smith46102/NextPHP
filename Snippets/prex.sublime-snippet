@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+print_r(${1:'test code'}); exit;
+]]></content>
+	<tabTrigger>prex</tabTrigger>
+	<description>print_r(...); exit;</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

@@ -1,0 +1,88 @@
+[
+
+	// symbols with correction
+	{
+		"keys": [":"], 
+		"command": "php_symbol_with_correction", "args": { "symbol": ":" },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+	{
+		"keys": ["="], 
+		"command": "php_symbol_with_correction", "args": { "symbol": "=" },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+	{
+		"keys": [">"], 
+		"command": "php_symbol_with_correction", "args": { "symbol": ">" },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+	{
+		"keys": ["<"], 
+		"command": "php_symbol_with_correction", "args": { "symbol": "<" },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+	{
+		"keys": ["+"], 
+		"command": "php_symbol_with_correction", "args": { "symbol": "+" },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+	{
+		"keys": ["-"], 
+		"command": "php_symbol_with_correction", "args": { "symbol": "-" },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+	{
+		"keys": ["!"], 
+		"command": "php_symbol_with_correction", "args": { "symbol": "!" },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+	{
+		"keys": ["."], 
+		"command": "php_symbol_with_correction", "args": { "symbol": "." },
+		"context": [{ "key": "selector", "operator": "equal", "operand": "source.php -string -comment" }]
+	},
+
+	{
+		"keys": [","],
+		"command": "insert_snippet",
+		"args": { "contents": ", " } ,
+		"context": [ {"key": "selector", "operator": "equal", "operand": "source.php function.call.parameters.php"} ]
+	},
+
+	// insert var in string
+	{
+		"keys": ["ctrl+."], "command": "insert_snippet",
+		"args": { "contents": "' . ${0} . '" } ,
+		"context": [ {"key": "selector", "operator": "equal", "operand": "source.php string.single.php"} ]
+	},
+	{
+		"keys": ["ctrl+."], "command": "insert_snippet",
+		"args": { "contents": "\" . ${0} . \""} ,
+		"context": [ {"key": "selector", "operator": "equal", "operand": "source.php string.double.php"} ]
+	},
+
+	// complete function body
+	{
+		"keys": ["tab"], "command": "insert_snippet", "args": { "contents": "\n\\{\n\t${0:// some code...}\n\\}" },
+		"context": [
+			{ "key": "selector", "operator": "equal", "operand": "source.php" },
+			{ "key": "preceding_text", "operator": "regex_contains", "operand": "function \\w+\\(.*?\\)$", "match_all": true }
+		]
+	},
+
+	// phpdoc comments
+	{
+		"keys": ["ctrl+8"], "command": "insert_snippet", "args": { "contents": "/**\n * ${0}\n */" },
+		"context": [
+			{ "key": "selector", "operator": "equal", "operand": "source.php" }
+		]
+	},
+	{
+		"keys": ["enter"], "command": "insert_snippet", "args": { "contents": "\n* " },
+		"context": [
+			{ "key": "selector", "operator": "equal", "operand": "source.php comment.doc.php" },
+			{ "key": "auto_complete_visible", "operator": "equal", "operand": false }
+		]
+	}
+
+]

@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+function ${1:name}(${2}) 
+{
+	${0:// some code ...}
+}
+]]></content>
+	<tabTrigger>function</tabTrigger>
+	<description>php</description>
+	<scope>source.php -string -comment</scope>
+</snippet>

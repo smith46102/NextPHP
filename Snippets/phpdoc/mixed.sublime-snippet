@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+mixed
+]]></content>
+	<tabTrigger>mixed</tabTrigger>
+	<description>php-doc</description>
+	<scope>source.php comment.php-doc</scope>
+</snippet>
