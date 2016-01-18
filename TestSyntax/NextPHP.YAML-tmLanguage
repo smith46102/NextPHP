@@ -1,0 +1,218 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: NextPHP2
+scopeName: source.php
+fileTypes: []
+uuid: ba1bf496-95b7-4e87-af8e-a66f3673aa93
+
+
+patterns:
+- include: '#comment'
+- include: '#function-definition'
+# - include: '#class-definition'
+- include: '#expression'
+- include: '#error'
+
+
+repository:
+
+  # full expression, ended with ';'
+  expression:
+    begin: (?=[\w\'\"\@\$\\\-])
+    end: ;
+    endCaptures:
+      '1': {name: brace.php}
+    name: test
+    patterns:
+      - include: '#comment'
+      - include: '#number'
+      - include: '#string'
+      - include: '#bool'
+      - include: '#operator'
+      - include: '#variable'
+      - include: '#class-name'
+      - include: '#error'
+
+  # error in syntax
+  error:
+    match: (\S)
+    name: error.php
+
+  # function definition
+  function-definition:
+    begin: \b(function)\b
+    end: (?<=\}|;)
+    name: test2
+    beginCaptures: 
+      '1': {name: keyword.php}
+    patterns:
+      - include: '#comment'
+      - include: '#function-definition-name'
+      - include: '#error'
+
+  function-definition-name:
+    begin: \b(\w+)\b
+    end: (?<=\}|;)
+    beginCaptures: 
+      '1': {name: function.name.php}
+    patterns:
+      - include: '#function-definition-arguments'
+      - include: '#function-definition-block'
+      - include: '#function-definition-abstract-end'
+      - include: '#error'
+
+  function-definition-arguments:
+    begin: (\()
+    end: (\))
+    beginCaptures:
+      '1': {name: brace.php}
+    endCaptures:
+      '1': {name: brace.php}
+    patterns:
+      - include: '#function-definition-argument'
+      - match: (,)(?!\)|,)
+        name: brace.php
+      - include: '#error'
+
+  function-definition-argument:
+    begin: (?=[\w\\\$\&])
+    end: (?=\,|\))
+    patterns:
+      - include: '#function-definition-argument-type'
+      - include: '#class-name'
+      - include: '#variable'
+      - match: (&)
+        name: operator.php
+      - begin: (=)
+        beginCaptures: 
+          '1': {name: operator.php}
+        end: (?=\,|\))
+        patterns:
+          - include: '#string'
+          - include: '#number'
+          - include: '#array-definition'
+          # xxx big or lor | make special pattern for this
+          - match: (null|false|true)
+            name: constant.language.php
+          - include: '#error'
+
+  function-definition-argument-type:
+    match: \b(array|callable)\b
+    name: keyword.php
+
+  function-definition-abstract-end:
+    match: ;
+    name: brace.php
+
+  function-definition-block:
+    begin: ({)
+    end: (})
+    beginCaptures: 
+      '1': {name: brace.php}
+    endCaptures: 
+      '1': {name: brace.php}
+    patterns:
+      - include: '#expression'
+
+
+  # class name
+  class-name:
+    match: ([\w\\]+)
+    name: class.name.php
+
+
+  # variable
+  variable:
+    match: \$\w+\b
+    name: variable.php
+
+
+  # string
+  string:
+    patterns:
+      - begin: (')
+        end: (')
+        name: string.single.php
+        contentName: string.signle.content.php
+        patterns:
+          # xxx test this
+          - match: \\('|\\)
+            name: string.signle.escape.php
+      - begin: (")
+        end: (")
+        name: string.double.php
+        contentName: string.double.content.php
+        patterns:
+          - match: \\(x\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)
+            name: string.double.escape.php
+          # xxx need more advanced syntax for this
+          - match: \$[\w]+
+            name: variable.php
+
+
+  # numbers
+  number:
+    patterns:
+      # integers
+      - match: -?0[0-7]+
+        name: number.octal.php
+      - match: -?0[xX][0-9a-fA-F]+
+        name: number.hexademical.php
+      - match: -?0b[01]+
+        name: number.binary.php
+      - match: -?([1-9][0-9]*)|0
+        name: number.int.php
+
+      # xxx floating points
+        # LNUM          [0-9]+
+        # DNUM          ([0-9]*[\.]{LNUM}) | ({LNUM}[\.][0-9]*)
+        # EXPONENT_DNUM [+-]?(({LNUM} | {DNUM}) [eE][+-]? {LNUM})
+
+
+  # boolean types
+  bool:
+    match: (?i)(true|false|null)(?-i)
+    name: constant.language.php
+
+
+  # xxx array-definition:
+
+
+  # comments
+  comment:
+    patterns:
+      # red comment line
+      - match: (// xxx).*?($\n?|(?=\?>))
+        name: comment.line.xxx.php
+      # green comment line
+      - match: (// \+\+\+).*?($\n?|(?=\?>))
+        name: comment.line.plus.php
+      # comment line
+      - match: (//).*?($\n?|(?=\?>))
+        name: comment.line.php
+      # php doc
+      - begin: /\*\*
+        end: \*/
+        name: comment.doc.php
+        patterns:
+          - match: \@\w+
+            name: comment.doc.symbol.php
+          - match: \$\w+
+            name: comment.doc.var.php
+          - match: (\\\w+)\b
+            name: comment.doc.type.php
+          - match: \b(self|static|array|int|bool|string|mixed|float|object|callable)\b
+            name: comment.doc.type.php
+      # comment block
+      - begin: /\*
+        end: \*/
+        name: comment.block.php
+        patterns:
+          - match: \@\w+
+            name: comment.doc.php
+          - match: \$\w+
+            name: comment.var.php
+
+  
+
+...
