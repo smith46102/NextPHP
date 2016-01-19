@@ -15,7 +15,19 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#namespace</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#use</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#function-definition</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#class-definition</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -28,12 +40,198 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>array-definition</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(array)(\()</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.php</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>brace.php</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(\))</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>brace.php</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comment</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#array-expression</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>(,)(?!\)|,)</string>
+							<key>name</key>
+							<string>brace.php</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#error</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(\[)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>brace.php</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(\])</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>brace.php</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comment</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#array-expression</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>(,)(?!\]|,)</string>
+							<key>name</key>
+							<string>brace.php</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#error</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>array-expression</key>
+		<dict>
+			<key>begin</key>
+			<string>(?=[\w\'\"\@\$\\\-\[\(])</string>
+			<key>end</key>
+			<string>(?=\,|\)|\])</string>
+			<key>name</key>
+			<string>test</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comment</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#number</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#bool</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#string</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#array-value</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#error</string>
+				</dict>
+			</array>
+		</dict>
+		<key>array-value</key>
+		<dict>
+			<key>begin</key>
+			<string>(=&gt;)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>brace.php</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?=\,|\)|\])</string>
+			<key>name</key>
+			<string>test2</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comment</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#sub-expression</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#error</string>
+				</dict>
+			</array>
+		</dict>
 		<key>bool</key>
 		<dict>
 			<key>match</key>
 			<string>(?i)(true|false|null)(?-i)</string>
 			<key>name</key>
 			<string>constant.language.php</string>
+		</dict>
+		<key>class-definition</key>
+		<dict>
+			<key>begin</key>
+			<string>\b(class)\b</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.php</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;=\})</string>
+			<key>name</key>
+			<string>test</string>
 		</dict>
 		<key>class-name</key>
 		<dict>
@@ -134,7 +332,7 @@
 		<key>expression</key>
 		<dict>
 			<key>begin</key>
-			<string>(?=[\w\'\"\@\$\\\-])</string>
+			<string>(?=[\w\'\"\@\$\\\-\[\(])</string>
 			<key>end</key>
 			<string>;</string>
 			<key>endCaptures</key>
@@ -146,7 +344,7 @@
 				</dict>
 			</dict>
 			<key>name</key>
-			<string>test</string>
+			<string>test5</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -164,6 +362,14 @@
 				<dict>
 					<key>include</key>
 					<string>#bool</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#array-definition</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#function-definition</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -198,7 +404,7 @@
 			<key>end</key>
 			<string>(?&lt;=\}|;)</string>
 			<key>name</key>
-			<string>test2</string>
+			<string>test</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -400,6 +606,23 @@
 				</dict>
 			</array>
 		</dict>
+		<key>namespace</key>
+		<dict>
+			<key>begin</key>
+			<string>\b(namespace)\b</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.php</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;=;)</string>
+			<key>name</key>
+			<string>test</string>
+		</dict>
 		<key>number</key>
 		<dict>
 			<key>patterns</key>
@@ -427,6 +650,12 @@
 					<string>-?([1-9][0-9]*)|0</string>
 					<key>name</key>
 					<string>number.int.php</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>([0-9\.]+)</string>
+					<key>name</key>
+					<string>number.float.php</string>
 				</dict>
 			</array>
 		</dict>
@@ -479,6 +708,81 @@
 					</array>
 				</dict>
 			</array>
+		</dict>
+		<key>sub-expression</key>
+		<dict>
+			<key>begin</key>
+			<string>(?=[\w\'\"\@\$\\\-\[\(])</string>
+			<key>end</key>
+			<string>(?=\,|\)|\])</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>brace.php</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comment</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#number</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#string</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#bool</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#array-definition</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#function-definition</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#operator</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#class-name</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#error</string>
+				</dict>
+			</array>
+		</dict>
+		<key>use</key>
+		<dict>
+			<key>begin</key>
+			<string>\b(use)\b</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.php</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;=;)</string>
+			<key>name</key>
+			<string>test</string>
 		</dict>
 		<key>variable</key>
 		<dict>

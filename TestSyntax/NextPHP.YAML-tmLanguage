@@ -8,41 +8,59 @@ uuid: ba1bf496-95b7-4e87-af8e-a66f3673aa93
 
 patterns:
 - include: '#comment'
+- include: '#namespace'
+- include: '#use'
 - include: '#function-definition'
-# - include: '#class-definition'
+- include: '#class-definition'
 - include: '#expression'
 - include: '#error'
 
 
 repository:
 
+
   # full expression, ended with ';'
   expression:
-    begin: (?=[\w\'\"\@\$\\\-])
+    begin: (?=[\w\'\"\@\$\\\-\[\(])
     end: ;
+    name: test5
     endCaptures:
       '1': {name: brace.php}
-    name: test
     patterns:
       - include: '#comment'
       - include: '#number'
       - include: '#string'
       - include: '#bool'
+      - include: '#array-definition'
+      - include: '#function-definition'
       - include: '#operator'
       - include: '#variable'
       - include: '#class-name'
       - include: '#error'
 
-  # error in syntax
-  error:
-    match: (\S)
-    name: error.php
+  sub-expression:
+    begin: (?=[\w\'\"\@\$\\\-\[\(])
+    end: (?=\,|\)|\])
+    endCaptures:
+      '1': {name: brace.php}
+    patterns:
+      - include: '#comment'
+      - include: '#number'
+      - include: '#string'
+      - include: '#bool'
+      - include: '#array-definition'
+      - include: '#function-definition'
+      - include: '#operator'
+      - include: '#variable'
+      - include: '#class-name'
+      - include: '#error'
+
 
   # function definition
   function-definition:
     begin: \b(function)\b
     end: (?<=\}|;)
-    name: test2
+    name: test
     beginCaptures: 
       '1': {name: keyword.php}
     patterns:
@@ -135,7 +153,6 @@ repository:
         name: string.single.php
         contentName: string.signle.content.php
         patterns:
-          # xxx test this
           - match: \\('|\\)
             name: string.signle.escape.php
       - begin: (")
@@ -162,7 +179,9 @@ repository:
         name: number.binary.php
       - match: -?([1-9][0-9]*)|0
         name: number.int.php
-
+      # floats
+      - match: ([0-9\.]+)
+        name: number.float.php
       # xxx floating points
         # LNUM          [0-9]+
         # DNUM          ([0-9]*[\.]{LNUM}) | ({LNUM}[\.][0-9]*)
@@ -175,7 +194,61 @@ repository:
     name: constant.language.php
 
 
-  # xxx array-definition:
+  # array-definition:
+  # xxx undone
+  array-definition:
+    patterns:
+      # old arrays like array(1,2,3)
+      - begin: (array)(\()
+        end: (\))
+        beginCaptures:
+          '1': {name: keyword.php}
+          '2': {name: brace.php}
+        endCaptures:
+          '1': {name: brace.php}
+        patterns:
+          - include: '#comment'
+          - include: '#array-expression'
+          - match: (,)(?!\)|,)
+            name: brace.php
+          - include: '#error'
+      # new arrays like [1,2,3]
+      - begin: (\[)
+        end: (\])
+        beginCaptures:
+          '1': {name: brace.php}
+        endCaptures:
+          '1': {name: brace.php}
+        patterns:
+          - include: '#comment'
+          - include: '#array-expression'
+          - match: (,)(?!\]|,)
+            name: brace.php
+          - include: '#error'
+
+  array-expression:
+    begin: (?=[\w\'\"\@\$\\\-\[\(])
+    end: (?=\,|\)|\])
+    name: test
+    patterns:
+      - include: '#comment'
+      - include: '#number'
+      - include: '#bool'
+      - include: '#string'
+      - include: '#variable'
+      - include: '#array-value'
+      - include: '#error'
+
+  array-value:
+    begin: (=>)
+    end: (?=\,|\)|\])
+    beginCaptures:
+      '1': {name: brace.php}
+    name: test2
+    patterns:
+      - include: '#comment'
+      - include: '#sub-expression'
+      - include: '#error'
 
 
   # comments
@@ -213,6 +286,37 @@ repository:
           - match: \$\w+
             name: comment.var.php
 
+
+  # class definition
+  class-definition:
+    begin: \b(class)\b
+    end: (?<=\})
+    name: test
+    beginCaptures: 
+      '1': {name: keyword.php}
+
   
+  # namespace
+  namespace:
+    begin: \b(namespace)\b
+    end: (?<=;)
+    name: test
+    beginCaptures: 
+      '1': {name: keyword.php}
+
+
+  # use
+  use:
+    begin: \b(use)\b
+    end: (?<=;)
+    name: test
+    beginCaptures: 
+      '1': {name: keyword.php}
+
+
+  # error in syntax
+  error:
+    match: (\S)
+    name: error.php
 
 ...

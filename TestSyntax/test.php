@@ -42,6 +42,16 @@ okay to do';
 $_SESSION $var $name;
 
 
+// arrays
+
+array(); array(1, 2, 3, $var); array(45.56, 'string', true); 
+
+[]; [1, 2, 3, $var]; [45.56, 'string', true];
+
+array(1 => 'a', 2.5 => 'b', true => false, 'string' => $obj, "another string" => $someValue);
+
+array(1 => function; name() {});
+
 // function definition =================================
 
 function make();
@@ -49,6 +59,8 @@ function make();
 function make(Model $model, &$var, $type = 123, $name = 'test');
 
 function make_model($a = true, array $b = null, $c, callable $d = null) {}
+
+$a = function name() {};
 
 // fails 
 
@@ -63,3 +75,17 @@ function public(int $a,,b,c,) {}
 function make(Model $model = nu, &$var, $type = 0.123, $name = 'test');
 
 function make_model($a, array $b >= null, $c, callable $d null) {}
+
+
+// namespace
+
+namespace SomeClass;
+
+// use
+
+use SmeClass;
+
+// class definition
+
+class {}
+

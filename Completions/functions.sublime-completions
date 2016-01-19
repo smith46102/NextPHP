@@ -1,0 +1,9 @@
+{
+	"scope": "source.php function.php",
+
+	"completions":
+	[
+		{ "trigger": "__construct\t php", "contents": "__construct" },
+		{ "trigger": "__get\t php", "contents": "__get" },
+	]
+}
